@@ -12,6 +12,7 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState('');
   const [id, setId] = useState(-1);
+  const [isValid, setValid] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -25,14 +26,14 @@ const App: React.FC = () => {
             setId(response.data.sub);
             setEmail(response.data.email);
             setIsAuthenticated(true);
-          } else {
-            setIsAuthenticated(false);
           }
         } catch (error) {
           setIsAuthenticated(false); // In case of error (e.g., token invalid)
+          setValid(false);
         }
       } else {
         setIsAuthenticated(false);
+        setValid(false);
       }
 
       setLoading(false);
@@ -42,12 +43,12 @@ const App: React.FC = () => {
   }, []);
 
   // Wait for validating the token
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className='text-center'>Loading...</div>;
 
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+        <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} valid={isValid} />} />
         <Route path="/register" element={<Register />} />
 
         {/* Protected Route for Home */}
