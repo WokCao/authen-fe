@@ -22,9 +22,9 @@ export const Login: React.FC<authenticatedProps> = ({ setIsAuthenticated }) => {
 
             // Check if login was successful
             if (response.data.statusCode === 200) {
-                localStorage.setItem('authToken', response.data.token);
+                localStorage.setItem('authToken', response.data.access_token);
                 setIsAuthenticated(true);
-                navigate('/home');
+                navigate('/');
             }
         } catch (error: any) {
             if (error.response) {
