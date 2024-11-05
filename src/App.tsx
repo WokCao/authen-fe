@@ -13,6 +13,7 @@ const App: React.FC = () => {
   const [email, setEmail] = useState('');
   const [id, setId] = useState(-1);
   const [isValid, setValid] = useState(true);
+  const [netError, setNetError] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -27,7 +28,8 @@ const App: React.FC = () => {
             setEmail(response.data.email);
             setIsAuthenticated(true);
           }
-        } catch (error) {
+        } catch (error : any) {
+          setNetError(true);
           setIsAuthenticated(false); // In case of error (e.g., token invalid)
           setValid(false);
         }
@@ -48,7 +50,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} valid={isValid} />} />
+        <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} valid={isValid} netError={netError} />} />
         <Route path="/register" element={<Register />} />
 
         {/* Protected Route for Home */}

@@ -10,10 +10,11 @@ interface ILoginFormInput {
 
 interface authenticatedProps {
     setIsAuthenticated: any;
-    valid: boolean
+    valid: boolean;
+    netError: boolean
   }
 
-export const Login: React.FC<authenticatedProps> = ({ setIsAuthenticated, valid }) => {
+export const Login: React.FC<authenticatedProps> = ({ setIsAuthenticated, valid, netError }) => {
     const { register, handleSubmit, setError, formState: { errors } } = useForm<ILoginFormInput>();
     const navigate = useNavigate();
 
@@ -46,7 +47,7 @@ export const Login: React.FC<authenticatedProps> = ({ setIsAuthenticated, valid 
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg">
                 <h2 className="text-2xl font-semibold text-center text-gray-800">Login</h2>
-                {!valid ? (<p className='text-center text-red-600'>Token has expired</p>) : ('')}
+                {netError ? (<p className='text-center text-red-600'>Server Error. Try again</p>) : !valid ? (<p className='text-center text-red-600'>Token has expired</p>) : ('')}
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-600">Email</label>
